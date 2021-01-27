@@ -68,21 +68,32 @@ public class USBCameraActivity extends AppCompatActivity implements CameraDialog
     private boolean isRequest;
     private boolean isPreview;
 
+    public String camera_name = "Camera VR";
+
     private UVCCameraHelper.OnMyDevConnectListener listener = new UVCCameraHelper.OnMyDevConnectListener() {
 
         @Override
         public void onAttachDev(UsbDevice device) {
+            if(!device.getProductName().contains(camera_name))
+            {
+                return;
+            }
             // request open permission
             if (!isRequest) {
                 isRequest = true;
                 if (mCameraHelper != null) {
-                    mCameraHelper.requestPermission(0);
+                    int index = mCameraHelper.getUsbDeviceList().indexOf(device);
+                    mCameraHelper.requestPermission(index);
                 }
             }
         }
 
         @Override
         public void onDettachDev(UsbDevice device) {
+            if(!device.getProductName().contains(camera_name))
+            {
+                return;
+            }
             // close camera
             if (isRequest) {
                 isRequest = false;
@@ -93,6 +104,10 @@ public class USBCameraActivity extends AppCompatActivity implements CameraDialog
 
         @Override
         public void onConnectDev(UsbDevice device, boolean isConnected) {
+            if(!device.getProductName().contains(camera_name))
+            {
+                return;
+            }
             if (!isConnected) {
                 showShortMsg("fail to connect,please check resolution params");
                 isPreview = false;
