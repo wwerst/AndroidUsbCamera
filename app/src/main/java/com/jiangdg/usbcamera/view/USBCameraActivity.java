@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -83,6 +84,8 @@ public class USBCameraActivity extends AppCompatActivity implements CameraDialog
 
         @Override
         public void onAttachDev(UsbDevice device) {
+            // Known issue: The two devices connect simultaneously,
+            // so it appears one of the permissions requests is dropped.
             if(device.getProductName().contains(camera_name_ir))
             {
                 // request open permission
