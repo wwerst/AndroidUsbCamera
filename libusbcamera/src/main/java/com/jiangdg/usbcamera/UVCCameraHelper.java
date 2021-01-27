@@ -57,10 +57,13 @@ public class UVCCameraHelper {
     }
 
     public static UVCCameraHelper getInstance() {
-        if (mCameraHelper == null) {
-            mCameraHelper = new UVCCameraHelper();
-        }
-        return mCameraHelper;
+        // HACK(WHW): Bypass singleton behavior
+//        if (mCameraHelper == null) {
+//            mCameraHelper = new UVCCameraHelper();
+//        }
+//        return mCameraHelper;
+
+        return new UVCCameraHelper();
     }
 
     public void closeCamera() {
